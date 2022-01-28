@@ -8,10 +8,14 @@ pipeline {
         }
         stage('build de docker'){
             steps{
-                sh 'cd deploy'
-                sh 'ls -la'
-                sh 'cd deploy && docker build -t web:latest . '
+                sh 'docker build -t web:latest . '
             }
+        stage('rename and upload'){
+            steps{
+                sh 'docker iamge tag web:latest registry.pps.local:5000/web:latest && \
+                docker push registry.pps.local:5000/web:latest'
+            }
+        }
         }
     }
 }
